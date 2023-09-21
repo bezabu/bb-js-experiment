@@ -2,6 +2,15 @@
 window.addEventListener("load", gameLoop);
 //setInterval(gameLoop, 40);
 */
+
+function initGame() {
+    const filmCard = new Image(); // Create new img element
+    filmCard.addEventListener("load", gameLoop);
+    filmCard.src = "./assets/images/filmcard6.jpg"; // Set source path
+
+    //gameLoop();
+}
+
 function gameLoop() {
     setInterval(draw, 40);
 
@@ -17,6 +26,7 @@ function draw() {
 
         ctx.fillStyle = "#ff00ff";
         ctx.fillRect(Math.floor(Math.random() * 750), Math.floor(Math.random() * 400), 50, 50);
+        ctx.drawImage(filmCard, 25, 25);
     }
 }
-window.addEventListener("load", gameLoop);
+window.addEventListener("load", initGame);
