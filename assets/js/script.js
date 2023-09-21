@@ -1,15 +1,12 @@
 /*
 window.addEventListener("load", gameLoop);
 //setInterval(gameLoop, 40);
+*/
 function gameLoop() {
-    let canvas = document.getElementById('game-area');
-    let ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = #000000;
-    fillRect(5, 5, 20, 20);
+    setInterval(draw, 40);
 
 }
-*/
+
 
 function draw() {
     const canvas = document.getElementById("game-area");
@@ -17,6 +14,9 @@ function draw() {
         const ctx = canvas.getContext("2d");
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, 800, 450);
+
+        ctx.fillStyle = "#ff00ff";
+        ctx.fillRect(Math.floor(Math.random() * 750), Math.floor(Math.random() * 400), 50, 50);
     }
 }
-window.addEventListener("load", draw);
+window.addEventListener("load", gameLoop);
