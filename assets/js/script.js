@@ -1,32 +1,39 @@
-/*
-window.addEventListener("load", gameLoop);
-//setInterval(gameLoop, 40);
-*/
 
 function initGame() {
-    const filmCard = new Image(); // Create new img element
-    filmCard.addEventListener("load", gameLoop);
-    filmCard.src = "./assets/images/filmcard6.jpg"; // Set source path
-
-    //gameLoop();
-}
-
-function gameLoop() {
-    setInterval(draw, 40);
-
-}
-
-
-function draw() {
+    let player = {
+        playerId: 1,
+        playerX: Math.floor(Math.random() * 750),
+        playerY: Math.floor(Math.random() * 400)
+    };
     const canvas = document.getElementById("game-area");
+    const ctx = canvas.getContext("2d");
     if (canvas.getContext) {
-        const ctx = canvas.getContext("2d");
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, 800, 450);
+    }
+    console.log("initialized");
+    playerDraw(player);
+    setInterval(gameLoop(player), 40);
+}
 
+function playerStep() {
+
+}
+
+function playerDraw(drawObject) {
+    const canvas = document.getElementById("game-area");
+    const ctx = canvas.getContext("2d");
+    if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
-        ctx.fillRect(Math.floor(Math.random() * 750), Math.floor(Math.random() * 400), 50, 50);
-        ctx.drawImage(filmCard, 25, 25);
+        ctx.fillRect(drawObject.playerX, drawObject.playerY, 50, 50);
     }
 }
+
+function gameLoop(player) {
+    console.log(player.playerId);
+    playerStep();
+    playerDraw(player);
+}
+
+
 window.addEventListener("load", initGame);
