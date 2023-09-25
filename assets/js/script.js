@@ -5,15 +5,27 @@ function initGame() {
         playerX: Math.floor(Math.random() * 750),
         playerY: Math.floor(Math.random() * 400)
     };
-    let terrain = {
-        height: ["", ""]
-    };
+
+    let terrain = [];
+    let rows = 11;
+    let columns = 11;
+
+    // creating two-dimensional array
+    for (let i = 0; i < rows; i++) {
+        terrain[i] = [];
+        for (let j = 0; j < columns; j++) {
+            terrain[i][j] = j;
+        }
+    }
     let maxHeight = 50;
     for (n = 0; n < 10; n++) {
         for (m = 0; m < 10; m++) {
-            terrain.height[n, m] = Math.floor(Math.random() * maxHeight);
+            terrain[n][m] = Math.floor(Math.random() * maxHeight);
+            console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
         }
     }
+
+    console.log(terrain.height);
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     if (canvas.getContext) {
@@ -54,7 +66,7 @@ function playerDraw(drawObject) {
     if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
         ctx.fillRect(drawObject.playerX, drawObject.playerY, 50, 50);
-        console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
+        //console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
 function terrainDraw(terrain) {
@@ -63,17 +75,17 @@ function terrainDraw(terrain) {
     let tileWidth = 80;
     ctx.fillStyle = "#ffffff";
     let heightOffSet = "";
-    let heightOffSetX = "";
-    let heightOffSetXY = "";
-    for (n = 0; n < 10; n++) {
-        for (m = 0; m < 10; m++) {
-            heightOffSet = terrain.height[n, m];
-            heightOffSetX = terrain.height[n + 1, m];
-            heightOffSetXY = terrain.height[n + 1, m + 1];
+    let heightOffSetNextX = "";
+    let heightOffSetNextXY = "";
+    for (n = 1; n < 10; n++) {
+        for (m = 1; m < 10; m++) {
+            heightOffSet = terrain[n][m];
+            heightOffSetNextX = terrain[n + 1][m];
+            heightOffSetNextXY = terrain[n + 1][m + 1];
             ctx.beginPath();
             ctx.moveTo(n * tileWidth, (m * tileWidth) - heightOffSet);
-            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) - heightOffSetX);
-            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth - heightOffSetXY);
+            ctx.lineTo((n + 1) * tileWidth, (m * tileWidth) - heightOffSetNextX);
+            ctx.lineTo((n + 1) * tileWidth, ((m + 1) * tileWidth) - heightOffSetNextXY);
             //ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
             ctx.fill();
         }
