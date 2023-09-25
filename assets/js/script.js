@@ -8,6 +8,12 @@ function initGame() {
     let terrain = {
         height: ["", ""]
     };
+    let maxHeight = 50;
+    for (n = 0; n < 10; n++) {
+        for (m = 0; m < 10; m++) {
+            terrain.height[n, m] = Math.floor(Math.random() * maxHeight);
+        }
+    }
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     if (canvas.getContext) {
@@ -51,19 +57,24 @@ function playerDraw(drawObject) {
         console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
-function terrainDraw() {
+function terrainDraw(terrain) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     let tileWidth = 80;
     ctx.fillStyle = "#ffffff";
+    let heightOffSet = "";
+    let heightOffSetX = "";
+    let heightOffSetXY = "";
     for (n = 0; n < 10; n++) {
         for (m = 0; m < 10; m++) {
-
+            heightOffSet = terrain.height[n, m];
+            heightOffSetX = terrain.height[n + 1, m];
+            heightOffSetXY = terrain.height[n + 1, m + 1];
             ctx.beginPath();
-            ctx.moveTo(n * tileWidth, m * tileWidth);
-            ctx.lineTo((n * tileWidth) + tileWidth, m * tileWidth);
-            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
-            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
+            ctx.moveTo(n * tileWidth, (m * tileWidth) - heightOffSet);
+            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) - heightOffSetX);
+            ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth - heightOffSetXY);
+            //ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
             ctx.fill();
         }
     }
