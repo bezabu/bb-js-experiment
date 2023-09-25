@@ -9,7 +9,7 @@ function initGame() {
     let terrain = [];
     let rows = 11;
     let columns = 11;
-
+    let tileWidth = 80;
     // creating two-dimensional array
     for (let i = 0; i < rows; i++) {
         terrain[i] = [];
@@ -36,8 +36,8 @@ function initGame() {
         playerMove(player, event.key);
     });
     console.log("initialized");
-    playerDraw(player);
-    setInterval(gameLoop, 40, player, terrain);
+    playerDraw(player, terrain, tileWidth);
+    setInterval(gameLoop, 40, player, terrain, tileWidth);
 }
 
 
@@ -60,19 +60,21 @@ function playerMove(player, eventKey) {
     }
 
 }
-function playerDraw(drawObject) {
+function playerDraw(drawObject, terrain, tileWidth) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
+    let yOffset = 0;
+    yOffset = terrain[Math.floor(drawObject.playerX / tileWidth)][Math.floor(drawObject.playerY / tileWidth)];
     if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
-        ctx.fillRect(drawObject.playerX, drawObject.playerY, 50, 50);
+        ctx.fillRect(drawObject.playerX, drawObject.playerY - yOffset, 50, 50);
         //console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
-function terrainDraw(terrain) {
+function terrainDraw(terrain, tileWidth) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
-    let tileWidth = 80;
+
     ctx.fillStyle = "#ffffff";
     let heightOffSet = "";
     let heightOffSetNextX = "";
@@ -99,11 +101,11 @@ function clearCanvas() {
         ctx.fillRect(0, 0, 800, 450);
     }
 }
-function gameLoop(player, terrain) {
+function gameLoop(player, terrain, tileWidth) {
     clearCanvas();
-    terrainDraw(terrain);
+    terrainDraw(terrain, tileWidth);
     console.log(player.playerId);
-    playerDraw(player);
+    playerDraw(player, terrain, tileWidth);
 
 }
 
