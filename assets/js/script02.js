@@ -1,4 +1,5 @@
-
+let xScreenOffset = 0;
+let yScreenOffset = 0;
 function initGame() {
     const imgTree = new Image(); // Create new img element
     imgTree.src = "../assets/images/tree01.png"; // Set source path
@@ -83,25 +84,25 @@ function playerMove(player, eventKey, moveAmount, tileWidth) {
     if (eventKey === "ArrowLeft") {
         player.playerX -= moveAmount;
         player.playerY += moveAmount;
-        //xScreenOffset -= tileWidth;
+        xScreenOffset += tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowRight") {
         player.playerX += moveAmount;
         player.playerY -= moveAmount;
-        //xScreenOffset += tileWidth;
+        xScreenOffset -= tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowUp") {
         player.playerX -= moveAmount;
         player.playerY -= moveAmount;
-        //yScreenOffset -= tileWidth / 2;
+        yScreenOffset += tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
     if (eventKey === "ArrowDown") {
         player.playerX += moveAmount;
         player.playerY += moveAmount;
-        //yScreenOffset += tileWidth / 2;
+        yScreenOffset -= tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
 
@@ -113,7 +114,7 @@ function playerDraw(drawObject, terrain, tileWidth) {
     yOffset = terrain[Math.floor(drawObject.playerX / tileWidth)][Math.floor(drawObject.playerY / tileWidth)];
     if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
-        ctx.fillRect(getIsoX(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2), getIsoY(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2) - yOffset, 50, 50);
+        ctx.fillRect(getIsoX(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2) + xScreenOffset, getIsoY(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2) - yOffset + yScreenOffset, 50, 50);
         //ctx.fillRect(drawObject.playerX, drawObject.playerY - yOffset, 50, 50);
         console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
@@ -135,9 +136,9 @@ function terrainDraw(drawObject, terrain, tileWidth, trees) {
             getIsoX(n, m, tileWidth, tileWidth / 2);
             getIsoY(n, m, tileWidth, tileWidth / 2);
             ctx.beginPath();
-            ctx.moveTo(getIsoX(n, m, tileWidth, tileWidth / 2), getIsoY(n, m, tileWidth, tileWidth / 2) - heightOffSet);
-            ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2), getIsoY(n + 1, m, tileWidth, tileWidth / 2) - heightOffSetNextX);
-            ctx.lineTo(getIsoX(n + 1, m + 1, tileWidth, tileWidth / 2), getIsoY(n + 1, m + 1, tileWidth, tileWidth / 2) - heightOffSetNextXY);
+            ctx.moveTo(getIsoX(n, m, tileWidth, tileWidth / 2) + xScreenOffset, getIsoY(n, m, tileWidth, tileWidth / 2) - heightOffSet + yScreenOffset);
+            ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2) + xScreenOffset, getIsoY(n + 1, m, tileWidth, tileWidth / 2) - heightOffSetNextX + yScreenOffset);
+            ctx.lineTo(getIsoX(n + 1, m + 1, tileWidth, tileWidth / 2) + xScreenOffset, getIsoY(n + 1, m + 1, tileWidth, tileWidth / 2) - heightOffSetNextXY + yScreenOffset);
             //ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
             ctx.stroke();
         }
