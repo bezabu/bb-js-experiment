@@ -57,7 +57,12 @@ function initGame() {
     setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
 }
 function getIsoX(x,y,tileWidth,tileHeight) {
-    
+    let isoX = ((x - y) * tileWidth);
+    return isoX;
+}
+function getIsoY(x, y, tileWidth, tileHeight) {
+    let isoY = ((x + y) * tileHeight);
+    return isoY;
 }
 
 function playerMove(player, eventKey) {
