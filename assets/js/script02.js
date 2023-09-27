@@ -7,10 +7,11 @@ function initGame() {
     };
     let player = {
         playerId: 1,
-        playerX: Math.floor(Math.random() * 10),
-        playerY: Math.floor(Math.random() * 10)
+        playerX: 5,
+        playerY: 1
     };
-
+    let xScreenOffset = 0;
+    let yScreenOffset = 0;
     let terrain = [];
     let trees = [];
     let rows = 11;
@@ -50,12 +51,13 @@ function initGame() {
         ctx.fillRect(0, 0, 800, 450);
     }
     document.addEventListener('keydown', function (event) {
-        playerMove(player, event.key, 0.5);
+        playerMove(player, event.key, 0.5, tileWidth);
     });
     console.log("initialized");
-    playerDraw(player, terrain, tileWidth);
+    playerDraw(drawObject, terrain, tileWidth);
     setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
 }
+//Isometric conversions
 function getIsoX(x, y, tileWidth, tileHeight) {
     let isoX = ((x - y) * tileWidth);
     return isoX;
@@ -76,25 +78,30 @@ function inverseIsoY(x, y, tileWidth, tileHeight) {
     let mapY = (y / halfTileHeight - (x / halfTileWidth)) / 2;
     return mapY;
 }
-function playerMove(player, eventKey, moveAmount) {
+//move player
+function playerMove(player, eventKey, moveAmount, tileWidth, xScreenOffset, yScreenOffset) {
     if (eventKey === "ArrowLeft") {
         player.playerX -= moveAmount;
         player.playerY += moveAmount;
+        //xScreenOffset -= tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowRight") {
         player.playerX += moveAmount;
         player.playerY -= moveAmount;
+        //xScreenOffset += tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowUp") {
         player.playerX -= moveAmount;
         player.playerY -= moveAmount;
+        //yScreenOffset -= tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
     if (eventKey === "ArrowDown") {
         player.playerX += moveAmount;
         player.playerY += moveAmount;
+        //yScreenOffset += tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
 
@@ -114,7 +121,7 @@ function playerDraw(drawObject, terrain, tileWidth) {
 function terrainDraw(drawObject, terrain, tileWidth, trees) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = "#ffffff";
     let playerDrawn = 0;
     let heightOffSet = "";
     let heightOffSetNextX = "";
@@ -130,9 +137,9 @@ function terrainDraw(drawObject, terrain, tileWidth, trees) {
             ctx.beginPath();
             ctx.moveTo(getIsoX(n, m, tileWidth, tileWidth / 2), getIsoY(n, m, tileWidth, tileWidth / 2) - heightOffSet);
             ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2), getIsoY(n + 1, m, tileWidth, tileWidth / 2) - heightOffSetNextX);
-            ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2), getIsoY(n + 1, m + 1, tileWidth, tileWidth / 2) - heightOffSetNextXY);
+            ctx.lineTo(getIsoX(n + 1, m + 1, tileWidth, tileWidth / 2), getIsoY(n + 1, m + 1, tileWidth, tileWidth / 2) - heightOffSetNextXY);
             //ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
-            ctx.fill();
+            ctx.stroke();
         }
     }
     ctx.fillStyle = "#00ffff";
