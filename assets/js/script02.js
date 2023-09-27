@@ -1,5 +1,6 @@
 let xScreenOffset = 0;
 let yScreenOffset = 0;
+let tileWidth = 80;
 function initGame() {
     const imgTree = new Image(); // Create new img element
     imgTree.src = "../assets/images/tree01.png"; // Set source path
@@ -17,7 +18,7 @@ function initGame() {
     let trees = [];
     let rows = 11;
     let columns = 11;
-    let tileWidth = 80;
+    //let tileWidth = 80;
     // creating two-dimensional array
     for (let i = 0; i < rows; i++) {
         terrain[i] = [];
@@ -52,11 +53,11 @@ function initGame() {
         ctx.fillRect(0, 0, 800, 450);
     }
     document.addEventListener('keydown', function (event) {
-        playerMove(player, event.key, 0.5, tileWidth);
+        playerMove(player, event.key, 0.5);
     });
     console.log("initialized");
-    playerDraw(player, terrain, tileWidth);
-    setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
+    playerDraw(player, terrain);
+    setInterval(gameLoop, 40, player, terrain, trees);
 }
 //Isometric conversions
 function getIsoX(x, y, tileWidth, tileHeight) {
@@ -80,7 +81,7 @@ function inverseIsoY(x, y, tileWidth, tileHeight) {
     return mapY;
 }
 //move player
-function playerMove(player, eventKey, moveAmount, tileWidth) {
+function playerMove(player, eventKey, moveAmount) {
     if (eventKey === "ArrowLeft") {
         player.playerX -= moveAmount;
         player.playerY += moveAmount;
@@ -107,7 +108,7 @@ function playerMove(player, eventKey, moveAmount, tileWidth) {
     }
 
 }
-function playerDraw(drawObject, terrain, tileWidth) {
+function playerDraw(drawObject, terrain) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     let yOffset = 0;
@@ -119,7 +120,7 @@ function playerDraw(drawObject, terrain, tileWidth) {
         console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
-function terrainDraw(drawObject, terrain, tileWidth, trees) {
+function terrainDraw(drawObject, terrain, trees) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     ctx.strokeStyle = "#ffffff";
@@ -165,11 +166,11 @@ function clearCanvas() {
         ctx.fillRect(0, 0, 800, 450);
     }
 }
-function gameLoop(player, terrain, tileWidth, trees) {
+function gameLoop(player, terrain, trees) {
     clearCanvas();
-    terrainDraw(player, terrain, tileWidth, trees);
+    terrainDraw(player, terrain, trees);
     //console.log(player.playerId);
-    playerDraw(player, terrain, tileWidth);
+    playerDraw(player, terrain);
 
 }
 
