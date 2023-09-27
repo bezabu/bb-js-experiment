@@ -7,8 +7,8 @@ function initGame() {
     };
     let player = {
         playerId: 1,
-        playerX: Math.floor(Math.random() * 750),
-        playerY: Math.floor(Math.random() * 400)
+        playerX: Math.floor(Math.random() * 10),
+        playerY: Math.floor(Math.random() * 10)
     };
 
     let terrain = [];
@@ -50,13 +50,13 @@ function initGame() {
         ctx.fillRect(0, 0, 800, 450);
     }
     document.addEventListener('keydown', function (event) {
-        playerMove(player, event.key);
+        playerMove(player, event.key, 0.5);
     });
     console.log("initialized");
     playerDraw(player, terrain, tileWidth);
     setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
 }
-function getIsoX(x,y,tileWidth,tileHeight) {
+function getIsoX(x, y, tileWidth, tileHeight) {
     let isoX = ((x - y) * tileWidth);
     return isoX;
 }
@@ -64,22 +64,37 @@ function getIsoY(x, y, tileWidth, tileHeight) {
     let isoY = ((x + y) * tileHeight);
     return isoY;
 }
-
-function playerMove(player, eventKey) {
+function inverseIsoX(x, y, tileWidth, tileHeight) {
+    halfTileWidth = tileWidth / 2;
+    halfTileHeight = tileHeight / 2;
+    let mapX = (x / halfTileWidth + (y / halfTileHeight)) / 2;
+    return mapX;
+}
+function inverseIsoY(x, y, tileWidth, tileHeight) {
+    halfTileWidth = tileWidth / 2;
+    halfTileHeight = tileHeight / 2;
+    let mapY = (y / halfTileHeight - (x / halfTileWidth)) / 2;
+    return mapY;
+}
+function playerMove(player, eventKey, moveAmount) {
     if (eventKey === "ArrowLeft") {
-        player.playerX -= 10;
+        player.playerX -= moveAmount;
+        player.playerY += moveAmount;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowRight") {
-        player.playerX += 10;
+        player.playerX += moveAmount;
+        player.playerY -= moveAmount;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowUp") {
-        player.playerY -= 10;
+        player.playerX -= moveAmount;
+        player.playerY -= moveAmount;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
     if (eventKey === "ArrowDown") {
-        player.playerY += 10;
+        player.playerX += moveAmount;
+        player.playerY += moveAmount;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
 
@@ -91,7 +106,8 @@ function playerDraw(drawObject, terrain, tileWidth) {
     yOffset = terrain[Math.floor(drawObject.playerX / tileWidth)][Math.floor(drawObject.playerY / tileWidth)];
     if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
-        ctx.fillRect(drawObject.playerX, drawObject.playerY - yOffset, 50, 50);
+        ctx.fillRect(getIsoX(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2), getIsoY(drawObject.playerX, drawObject.playerY, tileWidth, tileWidth / 2) - yOffset, 50, 50);
+        //ctx.fillRect(drawObject.playerX, drawObject.playerY - yOffset, 50, 50);
         console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
@@ -108,10 +124,13 @@ function terrainDraw(drawObject, terrain, tileWidth, trees) {
             heightOffSet = terrain[n][m];
             heightOffSetNextX = terrain[n + 1][m];
             heightOffSetNextXY = terrain[n + 1][m + 1];
+
+            getIsoX(n, m, tileWidth, tileWidth / 2);
+            getIsoY(n, m, tileWidth, tileWidth / 2);
             ctx.beginPath();
-            ctx.moveTo(n * tileWidth, (m * tileWidth) - heightOffSet);
-            ctx.lineTo((n + 1) * tileWidth, (m * tileWidth) - heightOffSetNextX);
-            ctx.lineTo((n + 1) * tileWidth, ((m + 1) * tileWidth) - heightOffSetNextXY);
+            ctx.moveTo(getIsoX(n, m, tileWidth, tileWidth / 2), getIsoY(n, m, tileWidth, tileWidth / 2) - heightOffSet);
+            ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2), getIsoY(n + 1, m, tileWidth, tileWidth / 2) - heightOffSetNextX);
+            ctx.lineTo(getIsoX(n + 1, m, tileWidth, tileWidth / 2), getIsoY(n + 1, m + 1, tileWidth, tileWidth / 2) - heightOffSetNextXY);
             //ctx.lineTo((n * tileWidth) + tileWidth, (m * tileWidth) + tileWidth);
             ctx.fill();
         }
@@ -122,7 +141,7 @@ function terrainDraw(drawObject, terrain, tileWidth, trees) {
 
             if (trees[n][m] == 1) {
                 //ctx.drawImage((imgTree, (n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2));
-                ctx.fillRect((n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2), 40, 70);
+                //ctx.fillRect((n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2), 40, 70);
             }
             //playerDraw(drawObject, terrain, tileWidth);
             //ctx.fillStyle = "#00ffff";
