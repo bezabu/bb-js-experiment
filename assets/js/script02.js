@@ -10,8 +10,8 @@ function initGame() {
         playerX: 5,
         playerY: 1
     };
-    let xScreenOffset = 0;
-    let yScreenOffset = 0;
+    //let xScreenOffset = 0;
+    //let yScreenOffset = 0;
     let terrain = [];
     let trees = [];
     let rows = 11;
@@ -54,7 +54,7 @@ function initGame() {
         playerMove(player, event.key, 0.5, tileWidth);
     });
     console.log("initialized");
-    playerDraw(drawObject, terrain, tileWidth);
+    playerDraw(player, terrain, tileWidth);
     setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
 }
 //Isometric conversions
@@ -79,7 +79,7 @@ function inverseIsoY(x, y, tileWidth, tileHeight) {
     return mapY;
 }
 //move player
-function playerMove(player, eventKey, moveAmount, tileWidth, xScreenOffset, yScreenOffset) {
+function playerMove(player, eventKey, moveAmount, tileWidth) {
     if (eventKey === "ArrowLeft") {
         player.playerX -= moveAmount;
         player.playerY += moveAmount;
