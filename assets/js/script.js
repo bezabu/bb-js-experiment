@@ -112,19 +112,13 @@ function terrainDraw(drawObject, terrain, tileWidth, trees) {
     ctx.fillStyle = "#00ffff";
     for (let n = 1; n < 10; n++) {
         for (let m = 1; m < 10; m++) {
-            let playerYConv = drawObject.PlayerY;
-            console.log(playerYConv);
-            if (playerDrawn == 0 && m > playerYConv) {
-                console.log(playerDrawn);
-                playerDraw(drawObject, terrain, tileWidth);
-                ctx.fillStyle = "#00ffff";
-                playerDrawn = 1;
-                console.log(`player drawn at ${drawObject.PlayerX},${drawObject.PlayerY}`);
-            }
+
             if (trees[n][m] == 1) {
                 //ctx.drawImage((imgTree, (n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2));
                 ctx.fillRect((n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2), 40, 70);
             }
+            //playerDraw(drawObject, terrain, tileWidth);
+            //ctx.fillStyle = "#00ffff";
 
         }
     }
@@ -141,7 +135,7 @@ function gameLoop(player, terrain, tileWidth, trees) {
     clearCanvas();
     terrainDraw(player, terrain, tileWidth, trees);
     //console.log(player.playerId);
-    //playerDraw(player, terrain, tileWidth);
+    playerDraw(player, terrain, tileWidth);
 
 }
 
