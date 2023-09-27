@@ -1,5 +1,10 @@
 
 function initGame() {
+    const imgTree = new Image(); // Create new img element
+    imgTree.src = "../assets/images/tree01.png"; // Set source path
+    imgTree.onload = () => {
+
+    };
     let player = {
         playerId: 1,
         playerX: Math.floor(Math.random() * 750),
@@ -7,25 +12,37 @@ function initGame() {
     };
 
     let terrain = [];
+    let trees = [];
     let rows = 11;
     let columns = 11;
     let tileWidth = 80;
     // creating two-dimensional array
     for (let i = 0; i < rows; i++) {
         terrain[i] = [];
+        trees[i] = [];
         for (let j = 0; j < columns; j++) {
             terrain[i][j] = j;
+            trees[i][j] = j;
         }
     }
     let maxHeight = 50;
-    for (n = 0; n < 10; n++) {
-        for (m = 0; m < 10; m++) {
+    for (let n = 0; n < 10; n++) {
+        for (let m = 0; m < 10; m++) {
             terrain[n][m] = Math.floor(Math.random() * maxHeight);
-            console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
+            //console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
+        }
+    }
+    //console.log(terrain.height);
+    for (let n = 0; n < 10; n++) {
+        for (let m = 0; m < 10; m++) {
+
+            terrain[n][m] = Math.floor(Math.random() * maxHeight);
+            //console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
+            trees[n][m] = Math.round(Math.random());
+            //console.log(`Cell ${n},${m} tree value: ${trees[n][m]}`);
         }
     }
 
-    console.log(terrain.height);
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     if (canvas.getContext) {
@@ -37,7 +54,7 @@ function initGame() {
     });
     console.log("initialized");
     playerDraw(player, terrain, tileWidth);
-    setInterval(gameLoop, 40, player, terrain, tileWidth);
+    setInterval(gameLoop, 40, player, terrain, tileWidth, trees);
 }
 
 
@@ -68,19 +85,19 @@ function playerDraw(drawObject, terrain, tileWidth) {
     if (canvas.getContext) {
         ctx.fillStyle = "#ff00ff";
         ctx.fillRect(drawObject.playerX, drawObject.playerY - yOffset, 50, 50);
-        //console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
+        console.log(`draw player at ${drawObject.playerX}, ${drawObject.playerY}`);
     }
 }
-function terrainDraw(terrain, tileWidth) {
+function terrainDraw(drawObject, terrain, tileWidth, trees) {
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
-
     ctx.fillStyle = "#ffffff";
+    let playerDrawn = 0;
     let heightOffSet = "";
     let heightOffSetNextX = "";
     let heightOffSetNextXY = "";
-    for (n = 1; n < 10; n++) {
-        for (m = 1; m < 10; m++) {
+    for (let n = 1; n < 10; n++) {
+        for (let m = 1; m < 10; m++) {
             heightOffSet = terrain[n][m];
             heightOffSetNextX = terrain[n + 1][m];
             heightOffSetNextXY = terrain[n + 1][m + 1];
@@ -92,6 +109,25 @@ function terrainDraw(terrain, tileWidth) {
             ctx.fill();
         }
     }
+    ctx.fillStyle = "#00ffff";
+    for (let n = 1; n < 10; n++) {
+        for (let m = 1; m < 10; m++) {
+            let playerYConv = drawObject.PlayerY;
+            console.log(playerYConv);
+            if (playerDrawn == 0 && m > playerYConv) {
+                console.log(playerDrawn);
+                playerDraw(drawObject, terrain, tileWidth);
+                ctx.fillStyle = "#00ffff";
+                playerDrawn = 1;
+                console.log(`player drawn at ${drawObject.PlayerX},${drawObject.PlayerY}`);
+            }
+            if (trees[n][m] == 1) {
+                //ctx.drawImage((imgTree, (n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2));
+                ctx.fillRect((n * tileWidth) - (tileWidth / 2), ((m * tileWidth) - heightOffSet) - (tileWidth / 2), 40, 70);
+            }
+
+        }
+    }
 }
 function clearCanvas() {
     const canvas = document.getElementById("game-area");
@@ -101,11 +137,11 @@ function clearCanvas() {
         ctx.fillRect(0, 0, 800, 450);
     }
 }
-function gameLoop(player, terrain, tileWidth) {
+function gameLoop(player, terrain, tileWidth, trees) {
     clearCanvas();
-    terrainDraw(terrain, tileWidth);
-    console.log(player.playerId);
-    playerDraw(player, terrain, tileWidth);
+    terrainDraw(player, terrain, tileWidth, trees);
+    //console.log(player.playerId);
+    //playerDraw(player, terrain, tileWidth);
 
 }
 
