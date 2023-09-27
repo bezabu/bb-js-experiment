@@ -5,20 +5,16 @@ function initGame() {
     const imgTree = new Image(); // Create new img element
     imgTree.src = "../assets/images/tree01.png"; // Set source path
     imgTree.onload = () => {
-
     };
     let player = {
         playerId: 1,
         playerX: 5,
         playerY: 1
     };
-    //let xScreenOffset = 0;
-    //let yScreenOffset = 0;
     let terrain = [];
     let trees = [];
     let rows = 11;
     let columns = 11;
-    //let tileWidth = 80;
     // creating two-dimensional array
     for (let i = 0; i < rows; i++) {
         terrain[i] = [];
@@ -28,6 +24,7 @@ function initGame() {
             trees[i][j] = j;
         }
     }
+    //heightmap
     let maxHeight = 50;
     for (let n = 0; n < 10; n++) {
         for (let m = 0; m < 10; m++) {
@@ -35,17 +32,15 @@ function initGame() {
             //console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
         }
     }
-    //console.log(terrain.height);
+    //trees
     for (let n = 0; n < 10; n++) {
         for (let m = 0; m < 10; m++) {
-
             terrain[n][m] = Math.floor(Math.random() * maxHeight);
             //console.log(`Cell ${n},${m} height value ${terrain[n][m]}`);
             trees[n][m] = Math.round(Math.random());
             //console.log(`Cell ${n},${m} tree value: ${trees[n][m]}`);
         }
     }
-
     const canvas = document.getElementById("game-area");
     const ctx = canvas.getContext("2d");
     if (canvas.getContext) {
@@ -106,7 +101,6 @@ function playerMove(player, eventKey, moveAmount) {
         yScreenOffset -= tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
-
 }
 function playerDraw(drawObject, terrain) {
     const canvas = document.getElementById("game-area");
@@ -133,7 +127,6 @@ function terrainDraw(drawObject, terrain, trees) {
             heightOffSet = terrain[n][m];
             heightOffSetNextX = terrain[n + 1][m];
             heightOffSetNextXY = terrain[n + 1][m + 1];
-
             getIsoX(n, m, tileWidth, tileWidth / 2);
             getIsoY(n, m, tileWidth, tileWidth / 2);
             ctx.beginPath();
@@ -154,7 +147,6 @@ function terrainDraw(drawObject, terrain, trees) {
             }
             //playerDraw(drawObject, terrain, tileWidth);
             //ctx.fillStyle = "#00ffff";
-
         }
     }
 }
@@ -171,8 +163,5 @@ function gameLoop(player, terrain, trees) {
     terrainDraw(player, terrain, trees);
     //console.log(player.playerId);
     playerDraw(player, terrain);
-
 }
-
-
 window.addEventListener("load", initGame);
