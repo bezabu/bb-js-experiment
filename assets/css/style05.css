@@ -4,6 +4,10 @@
     border: none;
 }
 
+body {
+    background-color: #46546A;
+}
+
 #game-area {
     position: absolute;
     top: 50%;

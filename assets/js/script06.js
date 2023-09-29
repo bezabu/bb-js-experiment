@@ -119,7 +119,10 @@ function myGetRandomInt(maxNum) {
 function clearCanvas() {
     ctx.clearRect(0, 0, CanvasWidth, CanvasHeight);
 }
-
+function drawBackground() {
+    ctx.fillStyle = "#448A43";
+    ctx.fillRect(0, 0, CanvasWidth, CanvasHeight);
+}
 
 //move player
 function playerMove(player, eventKey, moveAmount) {
@@ -152,6 +155,7 @@ function playerMove(player, eventKey, moveAmount) {
 //main game loop
 function gameLoop() {
     clearCanvas();
+    drawBackground();
     updatePlayerDrawObject();
     sortImages();
     drawImages();
