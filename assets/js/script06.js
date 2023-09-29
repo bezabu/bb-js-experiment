@@ -108,7 +108,18 @@ function drawThis(imageToDraw, x, y) {
     console.log(`draw ${imageToDraw} at ${x},${y}`);
 }
 
+//get the angle between two points
+function getAngleDeg(x1, y1, x2, y2) {
+    // angle in degrees
+    let angleDeg = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    return angleDeg;
+}
 
+//get the distance between two points
+function myGetDistance(x1, y1, x2, y2) {
+    let myDistance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    return myDistance;
+}
 //returns a random integer between 0 and maxNum
 function myGetRandomInt(maxNum) {
     let randomInt = Math.round(Math.random() * maxNum);
