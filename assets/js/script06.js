@@ -37,7 +37,7 @@ imgRock.onload = () => {
     rockLoad = 1;
 };
 let imgSeal = new Image(); // Create new img element
-imgSeal.src = "../assets/images/bezabuseal01.jpg"; // Set source path
+imgSeal.src = "https://bezabu.github.io/bb-js-experiment/assets/images/bezabuseal01.jpg"; // Set source path
 imgSeal.onload = () => {
     //rock image is loaded
     sealLoad = 1;
@@ -193,12 +193,12 @@ document.addEventListener('keydown', function (event) {
 });
 //document.getElementById("game-area").addEventListener("click", myFunction, true);
 document.addEventListener("mousedown", (evt) => {
-    console.log("mouse click");
+    //console.log("mouse click");
     //get mouse position
     //relative to player position
     //draw something there
-
-    let entry = new DrawObject(imgSeal, mousePosition.x, mousePosition.y);
+    console.log(`mouse click at ${mousePosition.x},${mousePosition.y}`);
+    let entry = new DrawObject(imgSeal, Math.round(mousePosition.x / 50), Math.round(mousePosition.y / 50));
     drawList.push(entry);
 });
 
@@ -207,9 +207,10 @@ document.addEventListener("mousedown", (evt) => {
 document.addEventListener("mousemove", logMouse);
 
 function logMouse(e) {
-    console.log(`mouse position: ${e.clientX},${e.clientY}`);
-
-    mousePosition.x = e.clientX,
-        mousePosition.y = e.clientY;
-
+    //console.log(`mouse position: ${e.clientX},${e.clientY}`);
+    //elem = document.querySelector("game-area");
+    let rect = canvas.getBoundingClientRect();
+    mousePosition.x = Math.floor(e.clientX - rect.left);
+    mousePosition.y = Math.floor(e.clientY - rect.top);
+    //console.log(`mouse click at ${mousePosition.x},${mousePosition.y}`);
 }
