@@ -14,19 +14,19 @@ let player = {
 };
 let moveAmount = 1;
 let imgPlayer = new Image(); // Create new img element
-imgPlayer.src = "../assets/images/filmcard6.jpg"; // Set source path
+imgPlayer.src = "https://bezabu.github.io/bb-js-experiment/assets/images/filmcard6.jpg"; // Set source path
 imgPlayer.onload = () => {
     //tree image is loaded
     treeLoad = 1;
 };
 let imgTree = new Image(); // Create new img element
-imgTree.src = "../assets/images/tree01.png"; // Set source path
+imgTree.src = "https://bezabu.github.io/bb-js-experiment/assets/images/tree01.png"; // Set source path
 imgTree.onload = () => {
     //tree image is loaded
     treeLoad = 1;
 };
 let imgRock = new Image(); // Create new img element
-imgRock.src = "../assets/images/rock_placeholder.png"; // Set source path
+imgRock.src = "https://bezabu.github.io/bb-js-experiment/assets/images/rock_placeholder.png"; // Set source path
 imgRock.onload = () => {
     //rock image is loaded
     rockLoad = 1;
