@@ -7,6 +7,12 @@ let rockLoad = 0;
 let maxHeight = 20;
 let rows = 11;
 let columns = 11;
+let imgPlayer = new Image(); // Create new img element
+imgPlayer.src = "../assets/images/filmcard6.jpg"; // Set source path
+imgPlayer.onload = () => {
+    //tree image is loaded
+    treeLoad = 1;
+};
 let imgTree = new Image(); // Create new img element
 imgTree.src = "../assets/images/tree01.png"; // Set source path
 imgTree.onload = () => {
@@ -45,6 +51,8 @@ function DrawObject(newType, newX, newY) {
     this.x = newX;
     this.y = newY;
 }
+let playerDrawObject = new DrawObject(imgPlayer, 5, 5);
+drawList.push(playerDrawObject);
 //heightmap
 for (let n = 0; n < 10; n++) {
     for (let m = 0; m < 10; m++) {
@@ -69,15 +77,22 @@ for (let n = 0; n < 10; n++) {
         }
     }
 }
-
+sortImages();
+function updatePlayerDrawObject() {
+    //update the position of the player in the player draw object
+}
 function drawImages() {
     for (let i = 0; i < drawList.length; i++) {
         //cycle through drawobjects
         //call the drawimage
 
         drawThis(drawList[i].type, drawList[i].x, drawList[i].y);
-        console.log(`draw ${drawList[i]}`);
+        //console.log(`draw ${i}: ${drawList[i].y}`);
     }
+}
+function sortImages() {
+    drawList.sort(function (a, b) { return a.y - b.y; });
+
 }
 //draw an image
 function drawThis(imageToDraw, x, y) {
