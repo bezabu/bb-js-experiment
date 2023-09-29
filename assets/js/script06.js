@@ -200,7 +200,7 @@ document.addEventListener("mousedown", (evt) => {
     let entry = new DrawObject(imgSeal, Math.round(mousePosition.x / 50), Math.round(mousePosition.y / 50));
     drawList.push(entry);
 });
-document.addEventListener("pointeredown", (evt) => {
+document.addEventListener("pointerdown", (evt) => {
     //console.log("mouse click");
     //get mouse position
     //draw something there
