@@ -7,6 +7,12 @@ let rockLoad = 0;
 let maxHeight = 20;
 let rows = 11;
 let columns = 11;
+let player = {
+    playerId: 1,
+    playerX: 5,
+    playerY: 5
+};
+let moveAmount = 1;
 let imgPlayer = new Image(); // Create new img element
 imgPlayer.src = "../assets/images/filmcard6.jpg"; // Set source path
 imgPlayer.onload = () => {
@@ -51,7 +57,7 @@ function DrawObject(newType, newX, newY) {
     this.x = newX;
     this.y = newY;
 }
-let playerDrawObject = new DrawObject(imgPlayer, 5, 5);
+let playerDrawObject = new DrawObject(imgPlayer, player.playerX, player.playerY);
 drawList.push(playerDrawObject);
 //heightmap
 for (let n = 0; n < 10; n++) {
@@ -80,6 +86,8 @@ for (let n = 0; n < 10; n++) {
 sortImages();
 function updatePlayerDrawObject() {
     //update the position of the player in the player draw object
+    playerDrawObject.x = player.playerX;
+    playerDrawObject.y = player.playerY;
 }
 function drawImages() {
     for (let i = 0; i < drawList.length; i++) {
@@ -111,10 +119,46 @@ function myGetRandomInt(maxNum) {
 function clearCanvas() {
     ctx.clearRect(0, 0, CanvasWidth, CanvasHeight);
 }
+
+
+//move player
+function playerMove(player, eventKey, moveAmount) {
+    if (eventKey === "ArrowLeft") {
+        player.playerX -= moveAmount;
+        //player.playerY += moveAmount;
+        xScreenOffset += tileWidth;
+        console.log(`${eventKey}, new X: ${player.playerX}.`);
+    }
+    if (eventKey === "ArrowRight") {
+        player.playerX += moveAmount;
+        //player.playerY -= moveAmount;
+        xScreenOffset -= tileWidth;
+        console.log(`${eventKey}, new X: ${player.playerX}.`);
+    }
+    if (eventKey === "ArrowUp") {
+        //player.playerX -= moveAmount;
+        player.playerY -= moveAmount;
+        yScreenOffset += tileWidth / 2;
+        console.log(`${eventKey}, new Y: ${player.playerY}.`);
+    }
+    if (eventKey === "ArrowDown") {
+        //player.playerX += moveAmount;
+        player.playerY += moveAmount;
+        yScreenOffset -= tileWidth / 2;
+        console.log(`${eventKey}, new Y: ${player.playerY}.`);
+    }
+}
+
 //main game loop
 function gameLoop() {
     clearCanvas();
+    updatePlayerDrawObject();
+    sortImages();
     drawImages();
 }
 
 setInterval(gameLoop, 40);
+
+document.addEventListener('keydown', function (event) {
+    playerMove(player, event.key, 0.5);
+});
