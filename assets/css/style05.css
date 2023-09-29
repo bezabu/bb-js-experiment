@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#game-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 450px;
+}
+
+
+
+@media screen and (orientation:portrait) {}
+
+@media screen and (orientation:landscape) {}
+
+/* media queries */
+/* Laptops, desktops */
+@media screen and (max-width: 1920px) {
+    #game-area {
+        width: 800px;
+        height: 450px;
+    }
+}
+
+/* Small screens, laptops */
+@media screen and (max-width: 1200px) {
+    #game-area {
+        width: 800px;
+        height: 450px;
+    }
+}
+
+/* small screens, laptops */
+@media screen and (max-width: 1024px) {
+    #game-area {
+        width: 800px;
+        height: 450px;
+    }
+}
+
+/* landscape phones, tablets */
+@media screen and (max-width: 768px) {
+    #game-area {
+        left: 0px;
+        top: 10%;
+        transform: none;
+        width: 768px;
+        height: 432px;
+    }
+}
+
+/* phones */
+@media screen and (max-width: 480px) {
+    #game-area {
+        width: 480px;
+        height: 270px;
+    }
+}
+
+/* small phones */
+@media screen and (max-width: 320px) {
+    #game-area {
+        width: 320px;
+        height: 180px;
+    }
+}
