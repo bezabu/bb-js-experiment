@@ -195,20 +195,25 @@ document.addEventListener('keydown', function (event) {
 document.addEventListener("mousedown", (evt) => {
     //console.log("mouse click");
     //get mouse position
-    //relative to player position
     //draw something there
     console.log(`mouse click at ${mousePosition.x},${mousePosition.y}`);
     let entry = new DrawObject(imgSeal, Math.round(mousePosition.x / 50), Math.round(mousePosition.y / 50));
     drawList.push(entry);
 });
-
+document.addEventListener("pointeredown", (evt) => {
+    //console.log("mouse click");
+    //get mouse position
+    //draw something there
+    console.log(`mobile touch at ${mousePosition.x},${mousePosition.y}`);
+    let entry = new DrawObject(imgSeal, Math.round(mousePosition.x / 50), Math.round(mousePosition.y / 50));
+    drawList.push(entry);
+});
 
 
 document.addEventListener("mousemove", logMouse);
 
 function logMouse(e) {
     //console.log(`mouse position: ${e.clientX},${e.clientY}`);
-    //elem = document.querySelector("game-area");
     let rect = canvas.getBoundingClientRect();
     mousePosition.x = Math.floor(e.clientX - rect.left);
     mousePosition.y = Math.floor(e.clientY - rect.top);
