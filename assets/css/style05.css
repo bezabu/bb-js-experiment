@@ -54,23 +54,24 @@ body {
         left: 0px;
         top: 10%;
         transform: none;
-        width: 768px;
-        height: 432px;
+        /*width: 768px;
+        height: 432px;*/
     }
 }
+
 
 /* phones */
 @media screen and (max-width: 480px) {
     #game-area {
-        width: 480px;
-        height: 270px;
+        /*width: 480px;
+        height: 270px;*/
     }
 }
 
 /* small phones */
 @media screen and (max-width: 320px) {
     #game-area {
-        width: 320px;
-        height: 180px;
+        /*width: 320px;
+        height: 180px;*/
     }
 }

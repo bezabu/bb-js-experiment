@@ -188,8 +188,14 @@ function gameLoop() {
 
 setInterval(gameLoop, 40);
 
-document.addEventListener('keydown', function (event) {
+
+
+//event listeners
+
+document.addEventListener('keydown', (event) => {
+
     playerMove(player, event.key);
+
 });
 //document.getElementById("game-area").addEventListener("click", myFunction, true);
 document.addEventListener("mousedown", (evt) => {
