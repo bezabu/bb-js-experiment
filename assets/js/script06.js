@@ -4,6 +4,7 @@ let CanvasWidth = canvas.width = 800;
 let CanvasHeight = canvas.height = 450;
 let treeLoad = 0;
 let rockLoad = 0;
+let sealLoad = 0;
 let maxHeight = 20;
 let rows = 11;
 let columns = 11;
@@ -12,7 +13,11 @@ let player = {
     playerX: 5,
     playerY: 5
 };
-let moveAmount = 1;
+let mousePosition = {
+    x: 0,
+    y: 0
+};
+let moveAmount = 0.1;
 let imgPlayer = new Image(); // Create new img element
 imgPlayer.src = "https://bezabu.github.io/bb-js-experiment/assets/images/filmcard6.jpg"; // Set source path
 imgPlayer.onload = () => {
@@ -30,6 +35,12 @@ imgRock.src = "https://bezabu.github.io/bb-js-experiment/assets/images/rock_plac
 imgRock.onload = () => {
     //rock image is loaded
     rockLoad = 1;
+};
+let imgSeal = new Image(); // Create new img element
+imgSeal.src = "../assets/images/bezabuseal01.jpg"; // Set source path
+imgSeal.onload = () => {
+    //rock image is loaded
+    sealLoad = 1;
 };
 //create arrays for storing object coordinates
 let heightMap = [];
@@ -105,7 +116,7 @@ function sortImages() {
 //draw an image
 function drawThis(imageToDraw, x, y) {
     ctx.drawImage(imageToDraw, x * 50, y * 50);
-    console.log(`draw ${imageToDraw} at ${x},${y}`);
+    //console.log(`draw ${imageToDraw} at ${x},${y}`);
 }
 
 //get the angle between two points
@@ -114,7 +125,10 @@ function getAngleDeg(x1, y1, x2, y2) {
     let angleDeg = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     return angleDeg;
 }
+//get position relative to origin
+function getPosition(x1, y1, x2, y2) {
 
+}
 //get the distance between two points
 function myGetDistance(x1, y1, x2, y2) {
     let myDistance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
@@ -136,29 +150,29 @@ function drawBackground() {
 }
 
 //move player
-function playerMove(player, eventKey, moveAmount) {
+function playerMove(player, eventKey) {
     if (eventKey === "ArrowLeft") {
         player.playerX -= moveAmount;
         //player.playerY += moveAmount;
-        xScreenOffset += tileWidth;
+        //xScreenOffset += tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowRight") {
         player.playerX += moveAmount;
         //player.playerY -= moveAmount;
-        xScreenOffset -= tileWidth;
+        //xScreenOffset -= tileWidth;
         console.log(`${eventKey}, new X: ${player.playerX}.`);
     }
     if (eventKey === "ArrowUp") {
         //player.playerX -= moveAmount;
         player.playerY -= moveAmount;
-        yScreenOffset += tileWidth / 2;
+        //yScreenOffset += tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
     if (eventKey === "ArrowDown") {
         //player.playerX += moveAmount;
         player.playerY += moveAmount;
-        yScreenOffset -= tileWidth / 2;
+        //yScreenOffset -= tileWidth / 2;
         console.log(`${eventKey}, new Y: ${player.playerY}.`);
     }
 }
@@ -175,5 +189,27 @@ function gameLoop() {
 setInterval(gameLoop, 40);
 
 document.addEventListener('keydown', function (event) {
-    playerMove(player, event.key, 0.5);
+    playerMove(player, event.key);
 });
+//document.getElementById("game-area").addEventListener("click", myFunction, true);
+document.addEventListener("mousedown", (evt) => {
+    console.log("mouse click");
+    //get mouse position
+    //relative to player position
+    //draw something there
+
+    let entry = new DrawObject(imgSeal, mousePosition.x, mousePosition.y);
+    drawList.push(entry);
+});
+
+
+
+document.addEventListener("mousemove", logMouse);
+
+function logMouse(e) {
+    console.log(`mouse position: ${e.clientX},${e.clientY}`);
+
+    mousePosition.x = e.clientX,
+        mousePosition.y = e.clientY;
+
+}
